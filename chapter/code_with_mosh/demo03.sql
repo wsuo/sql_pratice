@@ -1,14 +1,13 @@
 /*
-    本节介绍复杂查询
-    包括函数的使用和聚合查询
+    本节介绍聚合查询
+    包括函数的使用
 */
 
 use sql_invoicing;
 # 首先是几种常用的聚合函数
 
 # 查询最大值,最小值,平均值
-select
-       max(invoice_total) as hightest,
+select max(invoice_total) as hightest,
        min(invoice_total) as lowest,
        avg(invoice_total) as average
 from invoices;
@@ -19,8 +18,7 @@ select max(invoice_date) as latest_date
 from invoices;
 
 # 使用 SUM() 计算一列的和, 使用 COUNT() 函数计数
-select
-       sum(invoice_total) as sum,
+select sum(invoice_total)   as sum,
        count(invoice_total) as count
 from invoices;
 
@@ -36,7 +34,7 @@ select *
 from invoices;
 
 
-select '2019上半年的业绩' as date_range,
+select '2019上半年的业绩'       as date_range,
        sum(invoice_total) as total_sales,
        sum(payment_total) as total_payments,
        sum(invoice_total - payment_total)
@@ -62,20 +60,20 @@ where invoice_date between '2019-01-01' and '2019-12-31'
 select client_id, sum(invoice_total) as total_sales
 from invoices
 group by client_id
-order by total_sales desc ;
+order by total_sales desc;
 # 记住: group by 子句永远是在 from 和 where 子句之后,在 order 子句之前的
 
 
 select c.state, c.city, sum(i.invoice_total) as total_sales
 from invoices i
-left join clients c using (client_id)
+         left join clients c using (client_id)
 group by c.state, c.city
-order by total_sales desc ;
+order by total_sales desc;
 
 # 练习使用多个字段分组
 select p.date, py.name as payment_method, sum(p.amount) as total_payments
 from payments p
-join payment_methods py on p.payment_id = py.payment_method_id
+         join payment_methods py on p.payment_id = py.payment_method_id
 group by date, payment_method
 order by date;
 
@@ -107,8 +105,8 @@ from order_items;
 
 select customer_id, sum(oi.quantity * oi.unit_price) as total_pay, c.state as state
 from customers c
-join orders o using (customer_id)
-join order_items oi using (order_id)
+         join orders o using (customer_id)
+         join order_items oi using (order_id)
 where state = 'VA'
 group by c.customer_id
 having total_pay >= 100;
@@ -118,12 +116,14 @@ use sql_invoicing;
 # with rollup 的使用: 对聚合函数求和
 select client_id, sum(invoice_total) as total_sales
 from invoices
-group by client_id with rollup ;
+group by client_id
+with rollup;
 
 select *
 from payment_methods;
 
 select pm.name, sum(amount) as total
 from payments p
-join payment_methods pm on p.payment_method = pm.payment_method_id
-group by name with rollup ;
+         join payment_methods pm on p.payment_method = pm.payment_method_id
+group by name
+with rollup;

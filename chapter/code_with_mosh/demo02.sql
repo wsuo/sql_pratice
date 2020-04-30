@@ -139,10 +139,12 @@ use sql_invoicing;
 
 # 删除数据
 # 删除所有数据
-delete from invoices;
+delete
+from invoices;
 
 # 使用 where 子句删除指定数据
-delete from invoices
+delete
+from invoices
 where invoice_id = 1;
 
 # 同样的, where 子句中可以使用 select 语句来指定多条数据
