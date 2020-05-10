@@ -61,7 +61,7 @@ where customer_id in (
 select distinct customer_id, first_name, last_name
 from orders
          join customers c using (customer_id)
-         join order_items oi on orders.order_id = oi.order_id
+         join order_items oi using (order_id)
 where product_id = 3;
 
 use sql_invoicing;
@@ -105,6 +105,10 @@ where client_id = any (
 );
 
 use sql_hr;
+
+select *
+from employees
+;
 
 # 相关子查询
 # 查看那几个员工所在的部门的工资在平均水平之上

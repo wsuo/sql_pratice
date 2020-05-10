@@ -27,3 +27,18 @@ select c.client_id,
 from clients c
          join invoices i on c.client_id = i.client_id
 group by c.client_id, c.name;
+
+# 重建视图
+create or replace view sales_by_client as
+select c.client_id,
+       c.name,
+       sum(i.invoice_total) as total
+from clients c
+         join invoices i on c.client_id = i.client_id
+group by c.client_id, c.name;
+
+# 删除视图
+drop view sales_by_client;
+
+
+
