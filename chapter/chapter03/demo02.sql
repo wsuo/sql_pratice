@@ -1,5 +1,3 @@
-
-
 SELECT Sno, Sname
 FROM Student;
 
@@ -85,9 +83,9 @@ FROM Student
 WHERE Sdept = 'CS'
   AND Sage < 20;
 
-SELECT   Sname, Ssex
-FROM     Student
-WHERE    Sdept IN ('CS ','MA ','IS');
+SELECT Sname, Ssex
+FROM Student
+WHERE Sdept IN ('CS ', 'MA ', 'IS');
 
 SELECT Sname, Ssex
 FROM Student
@@ -95,9 +93,9 @@ WHERE Sdept = 'CS'
    OR Sdept = 'MA'
    OR Sdept = 'IS';
 
-SELECT   Sno, Grade
-FROM     SC
-WHERE    Cno= '3'
+SELECT Sno, Grade
+FROM SC
+WHERE Cno = '3'
 ORDER BY Grade DESC;
 
 SELECT *
@@ -105,10 +103,10 @@ FROM Student
 ORDER BY Sdept, Sage DESC;
 
 SELECT COUNT(*)
-FROM   Student;
+FROM Student;
 
 SELECT COUNT(DISTINCT Sno)
-FROM   SC;
+FROM SC;
 
 SELECT SUM(Ccredit)
 FROM SC,
@@ -116,7 +114,7 @@ FROM SC,
 WHERE Sno = '201215121'
   AND SC.Cno = Course.Cno;
 
-SELECT Cno,COUNT(Sno)
+SELECT Cno, COUNT(Sno)
 FROM SC
 GROUP BY Cno;
 
@@ -124,3 +122,24 @@ SELECT Sno
 FROM SC
 GROUP BY Sno
 HAVING COUNT(*) > 2;
+
+update SC
+set grade=90
+where sno = (select sno from student where sname = '赵薇')
+  and cno = (select cno from course where cname = '电子商务');
+
+update sc
+set Grade = 90
+where Sno;
+
+
+select *
+from sc
+;
+
+create view V_S_AVG
+as
+select sno, COUNT(cno)
+from sc
+group by sno;
+

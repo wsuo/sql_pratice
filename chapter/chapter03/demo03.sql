@@ -11,7 +11,7 @@ from student
      sc
      on student.Sno = sc.Sno;
 
-# 查询选修2号课程且成绩在90分以上的所有学生的学号和姓名。
+# 查询选修2号课程且成绩在90分以上的所有学生的学号和姓名
 SELECT Student.Sno, Sname
 FROM Student,
      SC

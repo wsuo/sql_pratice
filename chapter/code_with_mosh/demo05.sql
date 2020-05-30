@@ -71,7 +71,7 @@ select time_to_sec('09:00');
 # 32400 从0点到9点的秒数
 
 
-# ifnull 表示如果是 null,就返回后面的字符
+# ifNull 表示如果是 null,就返回后面的字符
 select order_id,
        ifnull(shipper_id, '无记录') # 如果为null 就显示 无记录
 from orders;

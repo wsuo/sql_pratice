@@ -125,6 +125,10 @@ select *
 from customers
 limit 3 offset 3;
 
+select *
+from customers
+limit 3, 3;
+
 # 倒序排序之后取前三名
 select c.first_name, c.points
 from customers c
