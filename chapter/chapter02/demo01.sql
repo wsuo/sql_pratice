@@ -34,3 +34,16 @@ values ('aaa', 200);
 
 insert into orderitem(order_id, product_id, buynum)
 values ('aaa', '23cfa820-0eeb-4436-9538-5154f569d87b', 1);
+
+select u.*, o.id as oid, money, receiverAddress, receiverName, receiverPhone, paystate, ordertime, user_id
+from orders o, user u ;
+
+select *
+from user u, orders o ;
+
+select *
+from orders;
+
+select u.*, o.id as oid, money, receiverAddress, receiverName, receiverPhone, paystate, ordertime, user_id
+from user u
+         join orders o on u.id = o.user_id;

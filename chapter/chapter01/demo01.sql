@@ -323,6 +323,18 @@ where cname in ('数据库原理', '数据结构')
 group by S.sno, sname
 having count(cname) = 2;
 
+-- 另一种方法
+select distinct T1.sno, sname
+from Students T1
+         join SC S1 on T1.sno = S1.sno
+         join Course C1 on S1.cno = C1.cno
+where C1.cname = '数据库原理'
+  and exists(select *
+             from Students T2
+                      join SC S2 on T2.sno = S2.sno
+                      join Course C2 on S2.cno = C2.cno
+             where C2.cname = '数据结构' and T1.sno = T2.sno);
+
 -- 思路二:
 /*
     1.分别查出来选修这两门的学生
@@ -527,14 +539,33 @@ order by sno desc
     3.排序条件应该是 count(cno),而不是学号
 */
 
-select
-top 1
-Students.sno
-,
-sname
+-- 使用子查询
+select Students.sno,
+       sname,
+       count(cno)
 from Students
          join SC on Students.sno = SC.sno
 group by Students.sno, sname
+having count(cno) = (select
+                     top 1
+                     count(cno)
+                     from Students
+                              join SC S on Students.sno = S.sno
+                     group by Students.sno
+                     order by count(cno) desc)
+
+-- 使用相关子查询
+select Students.sno,
+       sname,
+       count(cno) as t
+from Students
+         join SC on Students.sno = SC.sno
+group by Students.sno, sname
+having count(cno) in (select count(cno)
+                      from Students
+                               join SC S on Students.sno = S.sno
+                      group by Students.sno
+                      having count(cno) = count(S.cno))
 order by count(cno) desc
 
 -- 32.查询没有被选修过的课程的课程号和课程名。
